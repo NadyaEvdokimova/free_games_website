@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+{% from "bootstrap5/form.html" import render_form %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Free Games Offers</title>
+    {% block styles %}
+    {{ bootstrap.load_css() }}
+    {% endblock %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Titan+One&display=swap" rel="stylesheet">
+    <link  href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
+</head>
+<body>
+<main>
+    <div class="main_part">
+        <div class="container_part">
+            <a href="{{url_for('home')}}"><h1 class="title">Free Games Offers</h1></a>
+            <div class="col-lg-8 col-md-10 mx-auto">
+                {{ render_form(form, novalidate=True, button_map={"submit": "success"}) }}
+            </div>
+
+            {% if data == [] %}
+                <div class="result">
+                    <h3>No games to show</h3>
+                </div>
+            {% else %}
+                {% if 'status_message' in data %}
+            <div class="result">
+                    <p>{{ data.status_message }}</p>
+                </div>
+                {% else %}
+            <div class="game_list col-lg-8 col-md-10 mx-auto">
+                    {% for game in range(data_length) %}
+                        <div class="game box">
+                            <p class="game_name">{{ data[game].title }}</p>
+                            <img src="{{ data[game].image }}" alt="poster {{ data[game].title }}">
+                            <p>{{ data[game].description }}</p>
+                            <p>{{ data[game].instructions | safe }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            {% endif %}
+
+        </div>
+    </div>
+</main>
+<footer>
+    <p class="footer">Nadezhda Evdokimova © {{ now.year }}</p>
+    <a href="https://www.svgbackgrounds.com/set/free-svg-backgrounds-and-patterns/">Free SVG Backgrounds and Patterns by SVGBackgrounds.com</a>
+</footer>
+</body>
+</html>
